@@ -19,6 +19,10 @@
         @endif
     </head>
     <body class="antialiased">
+        @php
+            use Illuminate\Support\Facades\Storage;
+        @endphp
+
         <!-- Navigation -->
         <nav class="fixed w-full bg-white/80 backdrop-blur-sm z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,7 +31,7 @@
                         <span class="text-2xl font-bold">TRENDWEAR</span>
                     </div>
                     <div class="hidden md:flex space-x-8">
-                        <a href="#" class="text-gray-700 hover:text-black">Collections</a>
+                        <a href="{{ route('collections.index') }}" class="text-gray-700 hover:text-black">Collections</a>
                         <a href="#" class="text-gray-700 hover:text-black">Men</a>
                         <a href="#" class="text-gray-700 hover:text-black">Women</a>
                         <a href="#" class="text-gray-700 hover:text-black">About</a>
@@ -44,7 +48,7 @@
                             </svg>
                         </a>
                         @auth
-                            <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-black">Dashboard</a>
+                            <a href="{{ route('collections.index') }}" class="text-gray-700 hover:text-black">Manage Collections</a>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
                                 <button type="submit" class="text-gray-700 hover:text-black">Logout</button>
@@ -78,33 +82,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <h2 class="text-3xl font-bold text-center mb-12">Featured Collections</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Collection 1 -->
+                @foreach($collections as $collection)
                 <div class="relative group">
-                    <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
-                         alt="Men's Collection" 
+                    <img src="{{ $collection->image ? Storage::url($collection->image) : asset('images/placeholder.jpg') }}" 
+                         alt="{{ $collection->name }}" 
                          class="w-full h-[500px] object-cover">
                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                        <a href="#" class="text-white text-xl font-medium">Men's Collection</a>
+                        <div class="text-center text-white">
+                            <h3 class="text-xl font-medium mb-2">{{ $collection->name }}</h3>
+                            <p class="text-sm">{{ Str::limit($collection->description, 100) }}</p>
+                        </div>
                     </div>
                 </div>
-                <!-- Collection 2 -->
-                <div class="relative group">
-                    <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
-                         alt="Women's Collection" 
-                         class="w-full h-[500px] object-cover">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                        <a href="#"  class="text-white text-xl font-medium">Women's Collection</a>
-                    </div>
-                </div>
-                <!-- Collection 3 -->
-                <div class="relative group">
-                    <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
-                         alt="Accessories" 
-                         class="w-full h-[500px] object-cover">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                        <a href="#" class="text-white text-xl font-medium">Accessories</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
 
