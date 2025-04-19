@@ -93,7 +93,7 @@
                          alt="Women's Collection" 
                          class="w-full h-[500px] object-cover">
                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                        <a href="#" class="text-white text-xl font-medium">Women's Collection</a>
+                        <a href="#"  class="text-white text-xl font-medium">Women's Collection</a>
                     </div>
                 </div>
                 <!-- Collection 3 -->
